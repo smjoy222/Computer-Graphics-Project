@@ -23,7 +23,7 @@ def display():
     glutSwapBuffers()
 
 def animate(v):
-    sun.update_sun_angle()
+    sun.update_sun_angle_animate()
     earthsurface_satellite.update_satellite_angle()
     glutPostRedisplay()
     glutTimerFunc(16, animate, 0)
