@@ -6,6 +6,8 @@ from OpenGL.GLU import *
 import background
 import sun
 import earthsurface_satellite
+import windturbine
+import citybuildings  # NEW IMPORT
 
 # Window size
 WINDOW_WIDTH = 800
@@ -18,13 +20,16 @@ def display():
     background.draw_stars()
     sun.draw_sun()
     earthsurface_satellite.draw_earth_surface()
+    citybuildings.draw_city_skyline()  
     earthsurface_satellite.draw_satellite_dish()
+    windturbine.draw_wind_turbine()
     
     glutSwapBuffers()
 
 def animate(v):
     sun.update_sun_angle_animate()
     earthsurface_satellite.update_satellite_angle()
+    windturbine.update_blade_angle() 
     glutPostRedisplay()
     glutTimerFunc(16, animate, 0)
 
@@ -32,10 +37,12 @@ def reshape(w, h):
     global WINDOW_WIDTH, WINDOW_HEIGHT
     WINDOW_WIDTH, WINDOW_HEIGHT = w, h
     
-    # Update window size in all modules
+   
     background.update_window_size(w, h)
     sun.update_window_size(w, h)
     earthsurface_satellite.update_window_size(w, h)
+    windturbine.update_window_size(w, h)
+    citybuildings.update_window_size(w, h) 
     
     glViewport(0, 0, w, h)
     glMatrixMode(GL_PROJECTION)
