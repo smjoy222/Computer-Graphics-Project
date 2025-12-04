@@ -20,20 +20,20 @@ def draw_earth_surface():
   
     glColor3f(0.08, 0.25, 0.18)  
     glBegin(GL_TRIANGLES)
-    # Hill 1
+    # Hill 1 (left side, 0-12.5% of width)
     glVertex2f(0, 80)
-    glVertex2f(100, 80)
-    glVertex2f(50, 100)
+    glVertex2f(0.125 * WINDOW_WIDTH, 80)
+    glVertex2f(0.0625 * WINDOW_WIDTH, 100)
     
-    # Hill 2
-    glVertex2f(200, 80)
-    glVertex2f(350, 80)
-    glVertex2f(275, 95)
+    # Hill 2 (middle left, 25-43.75% of width)
+    glVertex2f(0.25 * WINDOW_WIDTH, 80)
+    glVertex2f(0.4375 * WINDOW_WIDTH, 80)
+    glVertex2f(0.34375 * WINDOW_WIDTH, 95)
     
-    # Hill 3
-    glVertex2f(500, 80)
-    glVertex2f(700, 80)
-    glVertex2f(600, 110)
+    # Hill 3 (middle right, 62.5-87.5% of width)
+    glVertex2f(0.625 * WINDOW_WIDTH, 80)
+    glVertex2f(0.875 * WINDOW_WIDTH, 80)
+    glVertex2f(0.75 * WINDOW_WIDTH, 110)
     glEnd()
 
 def draw_satellite_dish():

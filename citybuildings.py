@@ -24,26 +24,29 @@ def draw_city_skyline():
     
     window_color = (0.9, 0.85, 0.3)  # Yellow windows (lit up)
     
-    
+    # Buildings defined as proportions of window width (x_ratio, width_ratio, height, color_idx)
+    # x_ratio: 0.0 to 1.0 representing position across screen width
     buildings = [
        
        
-        (110, 35, 95, 0),
-        (150, 28, 110, 1),
+        (0.14, 0.044, 95, 0),   # (110/800, 35/800)
+        (0.19, 0.035, 110, 1),  # (150/800, 28/800)
         
        
-        (370, 40, 130, 2),
-        (415, 32, 100, 3),
-        (452, 38, 145, 0),
-        (495, 30, 85, 1),
+        (0.46, 0.050, 130, 2),  # (370/800, 40/800)
+        (0.52, 0.040, 100, 3),  # (415/800, 32/800)
+        (0.57, 0.048, 145, 0),  # (452/800, 38/800)
+        (0.62, 0.038, 85, 1),   # (495/800, 30/800)
         
       
-        (710, 35, 120, 4),
-        (750, 42, 90, 2),
+        (0.89, 0.044, 120, 4),  # (710/800, 35/800)
+        (0.94, 0.053, 90, 2),   # (750/800, 42/800)
     ]
     
    
-    for (x_pos, width, height, color_idx) in buildings:
+    for (x_ratio, width_ratio, height, color_idx) in buildings:
+        x_pos = x_ratio * WINDOW_WIDTH
+        width = width_ratio * WINDOW_WIDTH
         base_y = 80 
         
         glColor3f(*building_colors[color_idx])
@@ -71,7 +74,7 @@ def draw_city_skyline():
         window_spacing_y = 12
         
         # Calculate number of window rows and columns
-        num_cols = max(1, (width - 8) // window_spacing_x)
+        num_cols = max(1, int((width - 8) // window_spacing_x))
         num_rows = max(1, (height - 20) // window_spacing_y)
         
         # Starting position for windows (centered)
@@ -84,7 +87,7 @@ def draw_city_skyline():
             for col in range(num_cols):
                 # Randomly skip some windows (not all lit)
                 import random
-                random.seed(x_pos + row * 100 + col)  # Consistent randomness
+                random.seed(int(x_pos) + row * 100 + col)  # Consistent randomness
                 if random.random() > 0.3:  # 70% windows lit
                     win_x = start_x + col * window_spacing_x
                     win_y = start_y + row * window_spacing_y
