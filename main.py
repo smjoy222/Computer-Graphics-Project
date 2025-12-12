@@ -10,6 +10,7 @@ import earthsurface_satellite
 import windturbine
 import citybuildings 
 import ufo
+import airplane
 import satellite
 
 # Window size
@@ -36,7 +37,12 @@ def display():
     citybuildings.draw_city_skyline(is_day)  
     earthsurface_satellite.draw_satellite_dish()
     windturbine.draw_wind_turbine(is_day)
-    ufo.draw_ufo()
+    
+    if is_day:
+        airplane.draw_balloon()
+    else:
+        ufo.draw_ufo()
+    
     satellite.draw_satellite()
     
     glutSwapBuffers()
@@ -47,6 +53,7 @@ def animate(v):
     earthsurface_satellite.update_satellite_angle()
     windturbine.update_blade_angle() 
     ufo.update_ufo_position()
+    airplane.update_balloon_position()
     satellite.update_satellite_position()
     glutPostRedisplay()
     glutTimerFunc(16, animate, 0)
@@ -74,6 +81,7 @@ def reshape(w, h):
     windturbine.update_window_size(w, h)
     citybuildings.update_window_size(w, h) 
     ufo.update_window_size(w, h)
+    airplane.update_window_size(w, h)
     satellite.update_window_size(w, h)
     
     glViewport(0, 0, w, h)
