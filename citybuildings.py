@@ -6,23 +6,32 @@ import math
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 600
 
-def draw_city_skyline():
+def draw_city_skyline(is_day=False):
     """
     Draw city skyline with buildings positioned to not clash with hills
     Hills are at: x=0-100, x=200-350, x=500-700
     Buildings positioned in gaps and right side
     """
     
-    # Building colors (dark for night scene)
-    building_colors = [
-        (0.15, 0.15, 0.2),   # Dark blue-gray
-        (0.18, 0.18, 0.22),  # Slightly lighter
-        (0.12, 0.12, 0.18),  # Darker
-        (0.2, 0.2, 0.25),    # Medium gray
-        (0.16, 0.16, 0.2),   # Dark gray
-    ]
-    
-    window_color = (0.9, 0.85, 0.3)  # Yellow windows (lit up)
+    # Building colors - different for day and night
+    if is_day:
+        building_colors = [
+            (0.6, 0.65, 0.7),   # Light gray
+            (0.65, 0.65, 0.68), # Light gray-blue
+            (0.55, 0.6, 0.68),  # Lighter gray
+            (0.7, 0.7, 0.75),   # Lighter gray
+            (0.6, 0.6, 0.65),   # Medium gray
+        ]
+        window_color = (0.3, 0.4, 0.5)  # Darker windows for day (glass reflection)
+    else:
+        building_colors = [
+            (0.15, 0.15, 0.2),   # Dark blue-gray
+            (0.18, 0.18, 0.22),  # Slightly lighter
+            (0.12, 0.12, 0.18),  # Darker
+            (0.2, 0.2, 0.25),    # Medium gray
+            (0.16, 0.16, 0.2),   # Dark gray
+        ]
+        window_color = (0.9, 0.85, 0.3)  # Yellow windows (lit up)
     
     # Buildings defined as proportions of window width (x_ratio, width_ratio, height, color_idx)
     # x_ratio: 0.0 to 1.0 representing position across screen width
@@ -85,10 +94,11 @@ def draw_city_skyline():
         
         for row in range(num_rows):
             for col in range(num_cols):
-                # Randomly skip some windows (not all lit)
+                # Randomly skip some windows
                 import random
                 random.seed(int(x_pos) + row * 100 + col)  # Consistent randomness
-                if random.random() > 0.3:  # 70% windows lit
+                threshold = 0.7 if is_day else 0.3  # Less windows visible in day (30% vs 70%)
+                if random.random() > threshold:
                     win_x = start_x + col * window_spacing_x
                     win_y = start_y + row * window_spacing_y
                     

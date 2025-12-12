@@ -86,3 +86,16 @@ def update_stars():
     """Update star blinking animation"""
     global blink_time
     blink_time += 1
+
+def draw_sky_background():
+    """Draw a sky blue background for day mode"""
+    glBegin(GL_QUADS)
+    # Sky blue gradient - darker blue at top, lighter at horizon
+    glColor3f(0.4, 0.7, 0.95)  # Medium sky blue at top
+    glVertex2f(0, WINDOW_HEIGHT)
+    glVertex2f(WINDOW_WIDTH, WINDOW_HEIGHT)
+    
+    glColor3f(0.75, 0.9, 1.0)  # Very light blue near horizon
+    glVertex2f(WINDOW_WIDTH, 0)
+    glVertex2f(0, 0)
+    glEnd()

@@ -7,9 +7,12 @@ WINDOW_HEIGHT = 600
 
 satellite_angle = 0
 
-def draw_earth_surface():
+def draw_earth_surface(is_day=False):
     # Main ground surface
-    glColor3f(0.1, 0.3, 0.2)  # Dark green earth
+    if is_day:
+        glColor3f(0.2, 0.6, 0.3)  # Bright green for day
+    else:
+        glColor3f(0.1, 0.3, 0.2)  # Dark green earth
     glBegin(GL_QUADS)
     glVertex2f(0, 0)
     glVertex2f(WINDOW_WIDTH, 0)
@@ -17,8 +20,11 @@ def draw_earth_surface():
     glVertex2f(0, 80)
     glEnd()
     
-  
-    glColor3f(0.08, 0.25, 0.18)  
+    # Hills
+    if is_day:
+        glColor3f(0.15, 0.5, 0.25)  # Brighter green for day
+    else:
+        glColor3f(0.08, 0.25, 0.18)  
     glBegin(GL_TRIANGLES)
     # Hill 1 (left side, 0-12.5% of width)
     glVertex2f(0, 80)

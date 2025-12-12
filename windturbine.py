@@ -9,7 +9,7 @@ WINDOW_HEIGHT = 600
 
 blade_angle = 0
 
-def draw_wind_turbine():
+def draw_wind_turbine(is_day=False):
     global blade_angle
     
     
@@ -17,7 +17,10 @@ def draw_wind_turbine():
     base_y = 50
     
     # 1. Draw base platform
-    glColor3f(0.35, 0.35, 0.35)  # Dark gray
+    if is_day:
+        glColor3f(0.5, 0.5, 0.5)  # Medium gray for day
+    else:
+        glColor3f(0.35, 0.35, 0.35)  # Dark gray
     glBegin(GL_QUADS)
     glVertex2f(base_x - 15, base_y - 10)
     glVertex2f(base_x + 15, base_y - 10)
@@ -27,7 +30,10 @@ def draw_wind_turbine():
     
    
     tower_height = 120
-    glColor3f(0.85, 0.85, 0.85)  
+    if is_day:
+        glColor3f(0.95, 0.95, 0.95)  # Brighter white for day
+    else:
+        glColor3f(0.85, 0.85, 0.85)  
     
     
     glBegin(GL_QUADS)
@@ -38,7 +44,10 @@ def draw_wind_turbine():
     glEnd()
     
     
-    glColor3f(0.6, 0.6, 0.6)
+    if is_day:
+        glColor3f(0.7, 0.7, 0.7)
+    else:
+        glColor3f(0.6, 0.6, 0.6)
     glLineWidth(1.5)
     glBegin(GL_LINE_LOOP)
     glVertex2f(base_x - 12, base_y)
@@ -49,7 +58,10 @@ def draw_wind_turbine():
     
     
     nacelle_y = base_y + tower_height
-    glColor3f(0.7, 0.7, 0.7)
+    if is_day:
+        glColor3f(0.85, 0.85, 0.85)
+    else:
+        glColor3f(0.7, 0.7, 0.7)
     glBegin(GL_QUADS)
     glVertex2f(base_x - 8, nacelle_y)
     glVertex2f(base_x + 8, nacelle_y)
@@ -62,7 +74,10 @@ def draw_wind_turbine():
     hub_y = nacelle_y + 6
     hub_radius = 5
     
-    glColor3f(0.5, 0.5, 0.5)
+    if is_day:
+        glColor3f(0.6, 0.6, 0.6)
+    else:
+        glColor3f(0.5, 0.5, 0.5)
    
     glBegin(GL_TRIANGLE_FAN)
     glVertex2f(hub_x, hub_y)
@@ -88,7 +103,10 @@ def draw_wind_turbine():
         blade_length = 35
         blade_width = 8
         
-        glColor3f(0.9, 0.9, 0.9) 
+        if is_day:
+            glColor3f(1.0, 1.0, 1.0)  # Pure white for day
+        else:
+            glColor3f(0.9, 0.9, 0.9) 
         glBegin(GL_TRIANGLES)
         # Blade triangle
         glVertex2f(0, 0)  # Hub connection
@@ -101,7 +119,10 @@ def draw_wind_turbine():
         glEnd()
         
         # Blade outline
-        glColor3f(0.6, 0.6, 0.6)
+        if is_day:
+            glColor3f(0.75, 0.75, 0.75)
+        else:
+            glColor3f(0.6, 0.6, 0.6)
         glLineWidth(1.0)
         glBegin(GL_LINE_LOOP)
         glVertex2f(0, 0)
