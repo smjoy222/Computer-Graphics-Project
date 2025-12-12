@@ -13,7 +13,7 @@ def draw_wind_turbine():
     global blade_angle
     
     
-    base_x = WINDOW_WIDTH - 180
+    base_x = WINDOW_WIDTH - 120
     base_y = 50
     
     # 1. Draw base platform

@@ -39,11 +39,10 @@ def draw_earth_surface():
 def draw_satellite_dish():
     global satellite_angle
     
-    # Satellite base position
-    base_x = 150
+    # Satellite base position - centered
+    base_x = WINDOW_WIDTH // 2
     base_y = 50
     
-   
     glColor3f(0.35, 0.35, 0.35)
     glBegin(GL_QUADS)
     glVertex2f(base_x - 25, base_y - 8)
