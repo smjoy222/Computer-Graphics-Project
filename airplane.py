@@ -136,3 +136,5 @@ def update_balloon_position():
     # Reset when off-screen
     if balloon_x - 150 > WINDOW_WIDTH:
         balloon_x = -150.0
+
+

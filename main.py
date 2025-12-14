@@ -12,6 +12,7 @@ import citybuildings
 import ufo
 import airplane
 import satellite
+import clouds
 
 # Window size
 WINDOW_WIDTH = 800
@@ -26,6 +27,7 @@ def display():
     if is_day:
         # Day mode: draw sky background and sun
         background.draw_sky_background()
+        clouds.draw_clouds()
         sun.draw_sun()
     else:
         # Night mode: draw space background and moon
@@ -55,6 +57,7 @@ def animate(v):
     ufo.update_ufo_position()
     airplane.update_balloon_position()
     satellite.update_satellite_position()
+    clouds.update_clouds()
     glutPostRedisplay()
     glutTimerFunc(16, animate, 0)
 
@@ -83,6 +86,7 @@ def reshape(w, h):
     ufo.update_window_size(w, h)
     airplane.update_window_size(w, h)
     satellite.update_window_size(w, h)
+    clouds.update_window_size(w, h)
     
     glViewport(0, 0, w, h)
     glMatrixMode(GL_PROJECTION)
@@ -103,6 +107,7 @@ def main():
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
     background.init_stars()
+    clouds.init_clouds()
 
     glutDisplayFunc(display)
     glutReshapeFunc(reshape)
