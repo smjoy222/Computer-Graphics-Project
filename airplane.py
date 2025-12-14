@@ -27,13 +27,12 @@ def draw_balloon():
     global balloon_x, balloon_base_y, balloon_bob_phase
     
     balloon_base_y = WINDOW_HEIGHT - 180
-    
-    # Vertical bobbing motion (like UFO)
+    # like ufo bob
     bob = math.sin(balloon_bob_phase) * balloon_bob_amp
     x = balloon_x
     y = balloon_base_y + bob
     
-    # Balloon envelope (main balloon - simple orange)
+
     balloon_r = 45
     
     # Orange balloon
@@ -49,11 +48,11 @@ def draw_balloon():
         glVertex2f(x + math.cos(a) * balloon_r, y + math.sin(a) * balloon_r)
     glEnd()
     
-    # Basket connection lines (ropes)
+    #  connection lines (ropes)
     glColor3f(0.40, 0.30, 0.25)
     glLineWidth(2.0)
     glBegin(GL_LINES)
-    # Left rope
+
     glVertex2f(x - 25, y - balloon_r + 5)
     glVertex2f(x - 15, y - balloon_r - 25)
     # Center left rope
@@ -67,7 +66,7 @@ def draw_balloon():
     glVertex2f(x + 15, y - balloon_r - 25)
     glEnd()
     
-    # Basket (simple basket at bottom)
+    # Basket 
     basket_y = y - balloon_r - 35
     glColor3f(0.65, 0.45, 0.30)
     glBegin(GL_QUADS)

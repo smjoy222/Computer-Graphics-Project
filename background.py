@@ -58,21 +58,20 @@ def draw_stars():
         x = x_ratio * WINDOW_WIDTH
         y = y_ratio * WINDOW_HEIGHT
         
-        # Calculate blinking brightness using sine wave
+        # Calculate blinking sine
         blink_factor = (math.sin(blink_time * blink_speed + blink_phase) + 1) / 2  # 0 to 1
         # Blend between 10% and 100% of base brightness for very noticeable blink
         brightness = base_brightness * (0.1 + 0.9 * blink_factor)
         
-        # Increase overall brightness significantly
         brightness = min(1.0, brightness * 1.5)
         
         glPointSize(size)
         if size > 3.0:
-            glColor3f(brightness, brightness, brightness)                  
+            glColor3f(1.0, 1.0, 1.0)                  
         elif base_brightness > 0.8:
-            glColor3f(brightness, brightness, brightness)
+              glColor3f(brightness, brightness, brightness * 0.9)
         else:
-            glColor3f(brightness, brightness, brightness)
+            glColor3f(brightness * 0.95, brightness * 0.95, brightness)
 
         glBegin(GL_POINTS)
         glVertex2f(x, y)
@@ -83,12 +82,10 @@ def update_window_size(w, h):
     WINDOW_WIDTH, WINDOW_HEIGHT = w, h
 
 def update_stars():
-    """Update star blinking animation"""
     global blink_time
     blink_time += 1
 
 def draw_sky_background():
-    """Draw a sky blue background for day mode"""
     glBegin(GL_QUADS)
     # Sky blue gradient - darker blue at top, lighter at horizon
     glColor3f(0.4, 0.7, 0.95)  # Medium sky blue at top

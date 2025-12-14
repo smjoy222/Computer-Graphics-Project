@@ -42,8 +42,6 @@ def draw_ufo():
     glColor3f(0.72, 0.72, 0.74)
     _draw_filled_ellipse(ufo_x, y, body_rx, body_ry, segments=40)
 
-    glEnable(GL_BLEND)
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
     glColor4f(0.18, 0.6, 0.95, 0.9)
     _draw_filled_ellipse(ufo_x + 6, y + 8, dome_rx, dome_ry, segments=32)
     glDisable(GL_BLEND)
