@@ -108,6 +108,7 @@ def main():
 
     background.init_stars()
     clouds.init_clouds()
+    satellite.init_satellite()
 
     glutDisplayFunc(display)
     glutReshapeFunc(reshape)

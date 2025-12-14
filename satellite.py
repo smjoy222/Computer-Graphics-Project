@@ -6,42 +6,69 @@ import math
 # Global variables
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 600
-satellite_x = 0
-satellite_y = 450
-satellite_speed = 0.5
+
+# Satellite 3D orbit around star
+satellite_orbit_angle = 0.0
+satellite_orbit_speed = 0.8
 satellite_rotation = 0
-rotation_speed = 0.5
-rotation_direction = 1  # 1 for clockwise, -1 for counter-clockwise
+rotation_speed = 1.2
 
 def update_window_size(w, h):
     """Update window dimensions"""
     global WINDOW_WIDTH, WINDOW_HEIGHT
     WINDOW_WIDTH, WINDOW_HEIGHT = w, h
 
+def init_satellite():
+    """Initialize satellite orbit parameters"""
+    global satellite_orbit_angle, satellite_rotation
+    satellite_orbit_angle = 0.0
+    satellite_rotation = 0
+
+def get_star_position():
+    """Get star center position (dish_cy + 280)"""
+    star_x = WINDOW_WIDTH / 2
+    star_y = 50 + 90 + 280  # base_y + dish_offset + star_offset
+    return star_x, star_y
+
+def get_satellite_position():
+    """Calculate satellite 3D orbit around star - horizontal depth rotation"""
+    star_x, star_y = get_star_position()
+    
+    angle_rad = math.radians(satellite_orbit_angle)
+    
+    # Horizontal orbital motion (left-right across screen)
+    orbit_width = 280
+    
+    # Depth calculation (back and forth)
+    # When cos = 1, satellite is in front (closer)
+    # When cos = -1, satellite is in back (farther)
+    depth_factor = math.cos(angle_rad)
+    
+    # X position: moves left to right
+    x = star_x + math.sin(angle_rad) * orbit_width
+    
+    # Y stays relatively constant (slight vertical for perspective)
+    y = star_y + depth_factor * 30
+    
+    return x, y, depth_factor
+
 def update_satellite_position():
-    """Update satellite position for animation"""
-    global satellite_x, satellite_rotation, rotation_direction
-    satellite_x += satellite_speed
+    """Update satellite orbital position"""
+    global satellite_orbit_angle, satellite_rotation
     
-    # Update rotation
-    satellite_rotation += rotation_speed * rotation_direction
-    
-    # Change rotation direction every 360 degrees
-    if satellite_rotation >= 360:
-        satellite_rotation = 0
-        rotation_direction = -1  # Switch to counter-clockwise
-    elif satellite_rotation <= -360:
-        satellite_rotation = 0
-        rotation_direction = 1  # Switch to clockwise
-    
-    # Reset position when it goes off screen
-    if satellite_x > WINDOW_WIDTH + 100:
-        satellite_x = -100
+    satellite_orbit_angle = (satellite_orbit_angle + satellite_orbit_speed) % 360
+    satellite_rotation = (satellite_rotation + rotation_speed) % 360
 
 def draw_satellite():
-    """Draw a 2D satellite moving across the sky"""
+    """Draw satellite orbiting around star"""
+    sat_x, sat_y, depth = get_satellite_position()
+    
+    # Scale based on depth (farther = smaller)
+    scale = 0.7 + (depth * 0.3)  # Range: 0.7 (back) to 1.0 (front)
+    
     glPushMatrix()
-    glTranslatef(satellite_x, satellite_y, 0)
+    glTranslatef(sat_x, sat_y, 0)
+    glScalef(scale, scale, 1.0)  # Apply depth scaling
     glRotatef(satellite_rotation, 0, 0, 1)  # Rotate around Z-axis
     
     # Main satellite body (rectangular)
