@@ -64,13 +64,20 @@ def draw_clouds():
         x, y, _, scale = cloud
         draw_single_cloud(x, y, scale)
 
+speed_factor = 1.0
+
+def adjust_speed(factor):
+    """Adjust cloud speed by factor"""
+    global speed_factor
+    speed_factor *= factor
+
 def update_clouds():
     """Update cloud positions for animation"""
     global clouds
     
     for cloud in clouds:
         # Move cloud to the right
-        cloud[0] += cloud[2]
+        cloud[0] += cloud[2] * speed_factor
         
         # Wrap around when cloud goes off screen
         if cloud[0] > WINDOW_WIDTH + 100:

@@ -59,6 +59,13 @@ def draw_sun():
         glVertex2f(ox, oy)
         glEnd()
 
+sun_rotation_speed = 2.0
+
+def adjust_speed(factor):
+    """Adjust sun rotation speed by factor"""
+    global sun_rotation_speed
+    sun_rotation_speed *= factor
+
 def update_sun_angle_animate():
     global sun_angle
-    sun_angle = (sun_angle + 2.0) % 360.0
+    sun_angle = (sun_angle + sun_rotation_speed) % 360.0

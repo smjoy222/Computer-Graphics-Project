@@ -313,71 +313,63 @@ def draw_satellite_dish():
     sat_x, sat_y, depth_factor = satellite.get_satellite_position()
     orbit_angle = satellite.satellite_orbit_angle
     
-    # Draw signals when satellite is somewhat visible (not completely behind)
-    # Stronger signal when satellite is in front
-    if depth_factor > -0.5:
-        glEnable(GL_BLEND)
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+    # Draw signals continuously (always tracking)
+    glEnable(GL_BLEND)
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+    
+    # Calculate signal direction from LNB to satellite
+    signal_dx = sat_x - lnb_x
+    signal_dy = sat_y - (lnb_y + 15)
+    signal_distance = math.sqrt(signal_dx * signal_dx + signal_dy * signal_dy)
+    
+    if signal_distance > 0:
+        # Normalize direction
+        signal_dx /= signal_distance
+        signal_dy /= signal_distance
         
-        # Calculate signal direction from LNB to satellite
-        signal_dx = sat_x - lnb_x
-        signal_dy = sat_y - (lnb_y + 15)
-        signal_distance = math.sqrt(signal_dx * signal_dx + signal_dy * signal_dy)
+        # Signal strength based on alignment (stronger when satellite is in front)
+        signal_strength = max(0.3, (depth_factor + 1.0) / 2.0)  # Minimum 0.3 strength
         
-        if signal_distance > 0:
-            # Normalize direction
-            signal_dx /= signal_distance
-            signal_dy /= signal_distance
+        # Draw signal wave arcs
+        num_waves = 4
+        for wave_num in range(num_waves):
+            wave_distance = 25 + wave_num * 30
+            wave_center_x = lnb_x + signal_dx * wave_distance
+            wave_center_y = lnb_y + 15 + signal_dy * wave_distance
             
-            # Signal strength based on alignment (stronger when satellite is in front)
-            signal_strength = (depth_factor + 1.0) / 2.0  # 0 (back) to 1 (front)
+            # Alpha decreases with distance
+            alpha = (0.6 - wave_num * 0.12) * signal_strength
             
-            # Draw signal wave arcs
-            num_waves = 4
-            for wave_num in range(num_waves):
-                wave_distance = 25 + wave_num * 30
-                wave_center_x = lnb_x + signal_dx * wave_distance
-                wave_center_y = lnb_y + 15 + signal_dy * wave_distance
-                
-                # Alpha decreases with distance and depends on signal strength
-                alpha = (0.7 - wave_num * 0.15) * signal_strength
-                
-                # Color: Green when tracking well (front), yellow/red when weak (back)
-                if signal_strength > 0.6:
-                    glColor4f(0.2, 1.0, 0.3, alpha)  # Strong green
-                elif signal_strength > 0.3:
-                    glColor4f(0.8, 0.9, 0.2, alpha)  # Yellow
-                else:
-                    glColor4f(1.0, 0.5, 0.2, alpha)  # Orange/red
-                
-                # Draw wave arc perpendicular to signal direction
-                glLineWidth(2.5 - wave_num * 0.3)
-                glBegin(GL_LINE_STRIP)
-                for i in range(11):
-                    angle_offset = (i - 5) * 0.12
-                    # Perpendicular vector
-                    perp_x = -signal_dy
-                    perp_y = signal_dx
-                    
-                    wave_x = wave_center_x + perp_x * angle_offset * 18
-                    wave_y = wave_center_y + perp_y * angle_offset * 18
-                    
-                    glVertex2f(wave_x, wave_y)
-                glEnd()
+            # Single green color for signal waves
+            glColor4f(0.2, 1.0, 0.3, alpha)
             
-            # Draw direct line to show tracking direction (thin dashed line)
-            if signal_strength > 0.4:
-                glColor4f(0.5, 0.8, 1.0, 0.3)
-                glLineWidth(1.0)
-                glEnable(GL_LINE_STIPPLE)
-                glLineStipple(2, 0x00FF)
-                glBegin(GL_LINES)
-                glVertex2f(lnb_x, lnb_y + 15)
-                glVertex2f(lnb_x + signal_dx * 100, lnb_y + 15 + signal_dy * 100)
-                glEnd()
-                glDisable(GL_LINE_STIPPLE)
+            # Draw wave arc perpendicular to signal direction
+            glLineWidth(2.5 - wave_num * 0.3)
+            glBegin(GL_LINE_STRIP)
+            for i in range(11):
+                angle_offset = (i - 5) * 0.12
+                # Perpendicular vector
+                perp_x = -signal_dy
+                perp_y = signal_dx
+                
+                wave_x = wave_center_x + perp_x * angle_offset * 18
+                wave_y = wave_center_y + perp_y * angle_offset * 18
+                
+                glVertex2f(wave_x, wave_y)
+            glEnd()
         
-        glDisable(GL_BLEND)
+        # Draw direct line to show tracking direction (thin dashed line)
+        glColor4f(0.5, 0.8, 1.0, 0.3 * signal_strength)
+        glLineWidth(1.0)
+        glEnable(GL_LINE_STIPPLE)
+        glLineStipple(2, 0x00FF)
+        glBegin(GL_LINES)
+        glVertex2f(lnb_x, lnb_y + 15)
+        glVertex2f(lnb_x + signal_dx * 100, lnb_y + 15 + signal_dy * 100)
+        glEnd()
+        glDisable(GL_LINE_STIPPLE)
+    
+    glDisable(GL_BLEND)
 
 def update_satellite_angle():
     """Update function (now uses real-time tracking in draw function)"""

@@ -71,6 +71,32 @@ def keyboard(key, x, y):
         is_day = False
         glClearColor(0.0, 0.0, 0.03, 1.0)  # Dark blue for night
         glutPostRedisplay()
+    elif key == b'f' or key == b'F':
+        satellite.set_speed_forward()
+        glutPostRedisplay()
+    elif key == b'b' or key == b'B':
+        satellite.set_speed_backward()
+        glutPostRedisplay()
+    elif key == b'+':
+        # Increase all speeds by 10%
+        satellite.adjust_speed(1.1)
+        windturbine.adjust_speed(1.1)
+        sun.adjust_speed(1.1)
+        clouds.adjust_speed(1.1)
+        ufo.adjust_speed(1.1)
+        airplane.adjust_speed(1.1)
+        print("Speed increased")
+        glutPostRedisplay()
+    elif key == b'-':
+        # Decrease all speeds by 10%
+        satellite.adjust_speed(0.9)
+        windturbine.adjust_speed(0.9)
+        sun.adjust_speed(0.9)
+        clouds.adjust_speed(0.9)
+        ufo.adjust_speed(0.9)
+        airplane.adjust_speed(0.9)
+        print("Speed decreased")
+        glutPostRedisplay()
 
 def reshape(w, h):
     global WINDOW_WIDTH, WINDOW_HEIGHT

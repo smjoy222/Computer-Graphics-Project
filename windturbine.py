@@ -135,10 +135,17 @@ def draw_wind_turbine(is_day=False):
     
     glPopMatrix()
 
+blade_speed = 3.0
+
+def adjust_speed(factor):
+    """Adjust windmill speed by factor"""
+    global blade_speed
+    blade_speed *= factor
+
 def update_blade_angle():
     global blade_angle
     # Rotate blades clockwise slowly
-    blade_angle = (blade_angle + 3) % 360  # 3 degrees per frame
+    blade_angle = (blade_angle + blade_speed) % 360
 
 def update_window_size(w, h):
     global WINDOW_WIDTH, WINDOW_HEIGHT

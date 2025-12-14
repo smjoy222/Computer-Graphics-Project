@@ -127,11 +127,18 @@ def draw_balloon():
         glVertex2f(bx, basket_y + 18)
     glEnd()
 
+speed_factor = 1.0
+
+def adjust_speed(factor):
+    """Adjust balloon speed by factor"""
+    global speed_factor
+    speed_factor *= factor
+
 def update_balloon_position():
     global balloon_x, balloon_bob_phase
     
-    balloon_x += balloon_speed
-    balloon_bob_phase += balloon_bob_speed
+    balloon_x += balloon_speed * speed_factor
+    balloon_bob_phase += balloon_bob_speed * speed_factor
     
     # Reset when off-screen
     if balloon_x - 150 > WINDOW_WIDTH:

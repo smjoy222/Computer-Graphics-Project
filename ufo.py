@@ -71,12 +71,19 @@ def draw_ufo():
 
 
 
+speed_factor = 1.0
+
+def adjust_speed(factor):
+    """Adjust UFO speed by factor"""
+    global speed_factor
+    speed_factor *= factor
+
 def update_ufo_position():
     global ufo_x, ufo_bob_phase
 
-    ufo_x += ufo_speed
+    ufo_x += ufo_speed * speed_factor
 
-    ufo_bob_phase += ufo_bob_speed
+    ufo_bob_phase += ufo_bob_speed * speed_factor
 
     if ufo_x - 200 > WINDOW_WIDTH:
         ufo_x = -200.0

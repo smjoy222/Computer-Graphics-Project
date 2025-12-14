@@ -9,9 +9,9 @@ WINDOW_HEIGHT = 600
 
 # Satellite 3D orbit around star
 satellite_orbit_angle = 0.0
-satellite_orbit_speed = 0.8
+satellite_orbit_speed = 0.3
 satellite_rotation = 0
-rotation_speed = 1.2
+rotation_speed = 0.5
 
 def update_window_size(w, h):
     """Update window dimensions"""
@@ -51,6 +51,27 @@ def get_satellite_position():
     y = star_y + depth_factor * 30
     
     return x, y, depth_factor
+
+def set_speed_forward():
+    """Increase satellite speed (forward)"""
+    global satellite_orbit_speed
+    satellite_orbit_speed = 0.6
+
+def set_speed_backward():
+    """Decrease satellite speed (backward/reverse)"""
+    global satellite_orbit_speed
+    satellite_orbit_speed = -0.6
+
+def set_speed_normal():
+    """Reset to normal speed"""
+    global satellite_orbit_speed
+    satellite_orbit_speed = 0.3
+
+def adjust_speed(factor):
+    """Adjust satellite speeds by factor"""
+    global satellite_orbit_speed, rotation_speed
+    satellite_orbit_speed *= factor
+    rotation_speed *= factor
 
 def update_satellite_position():
     """Update satellite orbital position"""
