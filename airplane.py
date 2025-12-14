@@ -33,51 +33,19 @@ def draw_balloon():
     x = balloon_x
     y = balloon_base_y + bob
     
-    # Balloon envelope (main balloon - colorful stripes)
+    # Balloon envelope (main balloon - simple orange)
     balloon_r = 45
     
-    # Red stripe
-    glColor3f(0.95, 0.25, 0.30)
-    glBegin(GL_TRIANGLE_FAN)
-    glVertex2f(x, y)
-    for i in range(13):
-        a = math.pi + (math.pi * i / 12)
-        glVertex2f(x + math.cos(a) * balloon_r, y + math.sin(a) * balloon_r)
-    glEnd()
+    # Orange balloon
+    glColor3f(1.0, 0.6, 0.2)
+    _draw_filled_circle(x, y, balloon_r)
     
-    # Yellow stripe
-    glColor3f(0.98, 0.85, 0.25)
-    glBegin(GL_TRIANGLE_FAN)
-    glVertex2f(x, y)
-    for i in range(9):
-        a = math.pi * 0.66 + (math.pi * 0.66 * i / 8)
-        glVertex2f(x + math.cos(a) * balloon_r, y + math.sin(a) * balloon_r)
-    glEnd()
-    
-    # Blue stripe
-    glColor3f(0.25, 0.60, 0.95)
-    glBegin(GL_TRIANGLE_FAN)
-    glVertex2f(x, y)
-    for i in range(9):
-        a = math.pi * 0.33 + (math.pi * 0.66 * i / 8)
-        glVertex2f(x + math.cos(a) * balloon_r, y + math.sin(a) * balloon_r)
-    glEnd()
-    
-    # Orange stripe
-    glColor3f(0.95, 0.65, 0.25)
-    glBegin(GL_TRIANGLE_FAN)
-    glVertex2f(x, y)
-    for i in range(9):
-        a = 0 + (math.pi * 0.66 * i / 8)
-        glVertex2f(x + math.cos(a) * balloon_r, y + math.sin(a) * balloon_r)
-    glEnd()
-    
-    # Balloon outline/shading
-    glColor3f(0.15, 0.15, 0.20)
-    glLineWidth(1.5)
+    # Balloon outline
+    glColor3f(0.2, 0.2, 0.25)
+    glLineWidth(2.0)
     glBegin(GL_LINE_STRIP)
-    for i in range(26):
-        a = math.pi + (math.pi * i / 25)
+    for i in range(33):
+        a = 2.0 * math.pi * i / 32
         glVertex2f(x + math.cos(a) * balloon_r, y + math.sin(a) * balloon_r)
     glEnd()
     
@@ -99,7 +67,7 @@ def draw_balloon():
     glVertex2f(x + 15, y - balloon_r - 25)
     glEnd()
     
-    # Basket (wicker basket at bottom)
+    # Basket (simple basket at bottom)
     basket_y = y - balloon_r - 35
     glColor3f(0.65, 0.45, 0.30)
     glBegin(GL_QUADS)
@@ -109,22 +77,14 @@ def draw_balloon():
     glVertex2f(x - 15, basket_y + 18)
     glEnd()
     
-    # Basket weave pattern (horizontal lines)
-    glColor3f(0.50, 0.35, 0.20)
-    glLineWidth(1.5)
-    glBegin(GL_LINES)
-    for i in range(4):
-        by = basket_y + 4 + (i * 4)
-        glVertex2f(x - 17, by)
-        glVertex2f(x + 17, by)
-    glEnd()
-    
-    # Basket weave pattern (vertical lines)
-    glBegin(GL_LINES)
-    for i in range(6):
-        bx = x - 15 + (i * 6)
-        glVertex2f(bx, basket_y)
-        glVertex2f(bx, basket_y + 18)
+    # Basket outline
+    glColor3f(0.4, 0.25, 0.15)
+    glLineWidth(2.0)
+    glBegin(GL_LINE_LOOP)
+    glVertex2f(x - 18, basket_y)
+    glVertex2f(x + 18, basket_y)
+    glVertex2f(x + 15, basket_y + 18)
+    glVertex2f(x - 15, basket_y + 18)
     glEnd()
 
 speed_factor = 1.0

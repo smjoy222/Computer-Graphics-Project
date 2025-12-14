@@ -82,10 +82,3 @@ def update_clouds():
         # Wrap around when cloud goes off screen
         if cloud[0] > WINDOW_WIDTH + 100:
             cloud[0] = -100
-            # Optionally vary y position slightly when wrapping
-            base_y = WINDOW_HEIGHT - 200
-            cloud[1] = base_y + (cloud[1] - base_y) * 0.9
-
-def reset_clouds():
-    """Reset clouds to initial positions"""
-    init_clouds()

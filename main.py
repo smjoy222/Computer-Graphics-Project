@@ -19,7 +19,7 @@ WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 600
 
 # Day/Night mode
-is_day = False  # False = night, True = day
+is_day = False  
 
 def display():
     glClear(GL_COLOR_BUFFER_BIT)
