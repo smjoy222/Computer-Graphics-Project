@@ -31,33 +31,37 @@ def draw_sun():
     sy = WINDOW_HEIGHT - 100
     r = 40
 
+    # Sun body
     glColor3f(1.0, 0.85, 0.10)
     draw_filled_circle(sx, sy, r, segments=48)
 
-
+    # Sun rays using OpenGL matrix transformations
     N = 8
     inner = r + 5
     outer = r + 22
+    spread = 8.6
 
+    glPushMatrix()
+    glTranslatef(sx, sy, 0)  # Move to sun center
+    glRotatef(sun_angle, 0, 0, 1) 
+    
     glColor3f(1.0, 0.8, 0.10)
     for i in range(N):
         ang = 360.0 * i / N
-
-        ang_animated = ang + sun_angle
-
-        spread = 8.6 
-        left_ang = ang_animated - spread
-        right_ang = ang_animated + spread
-
-        lx, ly = rotate_point(sx + inner, sy, sx, sy, left_ang)
-        rx, ry = rotate_point(sx + inner, sy, sx, sy, right_ang)
-        ox, oy = rotate_point(sx + outer, sy, sx, sy, ang_animated)
-
+        
+        glPushMatrix()
+        glRotatef(ang, 0, 0, 1)  
+        
+        
         glBegin(GL_TRIANGLES)
-        glVertex2f(lx, ly)
-        glVertex2f(rx, ry)
-        glVertex2f(ox, oy)
+        glVertex2f(-spread, inner)  
+        glVertex2f(spread, inner)   
+        glVertex2f(0, outer)       
         glEnd()
+        
+        glPopMatrix()
+    
+    glPopMatrix()
 
 sun_rotation_speed = 2.0
 

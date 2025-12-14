@@ -144,7 +144,6 @@ def adjust_speed(factor):
 
 def update_blade_angle():
     global blade_angle
-    # Rotate blades clockwise slowly
     blade_angle = (blade_angle + blade_speed) % 360
 
 def update_window_size(w, h):
