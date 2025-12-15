@@ -25,9 +25,9 @@ def init_satellite():
     satellite_rotation = 0
 
 def get_star_position():
-    """Get star center position (dish_cy + 280)"""
+    #y=(dis_cy 50+80)+ 280)"""
     star_x = WINDOW_WIDTH / 2
-    star_y = 50 + 90 + 280  # base_y + dish_offset + star_offset
+    star_y = 420  # base_y + dish_offset + star_offset
     return star_x, star_y
 
 def get_satellite_position():
@@ -53,46 +53,38 @@ def get_satellite_position():
     return x, y, depth_factor
 
 def set_speed_forward():
-    """Increase satellite speed (forward)"""
     global satellite_orbit_speed
     satellite_orbit_speed = 0.6
 
 def set_speed_backward():
-    """Decrease satellite speed (backward/reverse)"""
     global satellite_orbit_speed
     satellite_orbit_speed = -0.6
 
 def set_speed_normal():
-    """Reset to normal speed"""
     global satellite_orbit_speed
     satellite_orbit_speed = 0.3
 
 def adjust_speed(factor):
-    """Adjust satellite speeds by factor"""
     global satellite_orbit_speed, rotation_speed
     satellite_orbit_speed *= factor
     rotation_speed *= factor
 
 def update_satellite_position():
-    """Update satellite orbital position"""
     global satellite_orbit_angle, satellite_rotation
     
     satellite_orbit_angle = (satellite_orbit_angle + satellite_orbit_speed) % 360
     satellite_rotation = (satellite_rotation + rotation_speed) % 360
 
 def draw_satellite():
-    """Draw satellite orbiting around star"""
     sat_x, sat_y, depth = get_satellite_position()
     
     # Scale based on depth (farther = smaller)
-    scale = 0.7 + (depth * 0.3)  # Range: 0.7 (back) to 1.0 (front)
-    
+    scale = 0.7 + (depth * 0.3)  
     glPushMatrix()
     glTranslatef(sat_x, sat_y, 0)
-    glScalef(scale, scale, 1.0)  # Apply depth scaling
-    glRotatef(satellite_rotation, 0, 0, 1)  # Rotate around Z-axis
-    
-    # Main satellite body (rectangular)
+    glScalef(scale, scale, 1.0)  
+    glRotatef(satellite_rotation, 0, 0, 1) 
+    # Main satellite body 
     glColor3f(0.7, 0.7, 0.7)  # Silver/gray color
     glBegin(GL_POLYGON)
     glVertex2f(-15, -10)
@@ -101,7 +93,7 @@ def draw_satellite():
     glVertex2f(-15, 10)
     glEnd()
     
-    # Central antenna/sensor (small rectangle on top)
+    # Central antenna/sensor
     glColor3f(0.9, 0.9, 0.9)
     glBegin(GL_POLYGON)
     glVertex2f(-3, 10)
